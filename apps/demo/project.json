@@ -5,26 +5,29 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nx/rspack:rspack",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "target": "node",
-        "compiler": "tsc",
         "outputPath": "dist/apps/demo",
         "main": "apps/demo/src/main.ts",
         "tsConfig": "apps/demo/tsconfig.app.json",
-        "assets": ["apps/demo/src/assets"],
-        "isolatedConfig": true,
-        "webpackConfig": "apps/demo/webpack.config.js"
+        "rspackConfig": "apps/demo/rspack.config.js",
+        "assets": ["apps/demo/src/assets"]
       },
       "configurations": {
-        "development": {},
-        "production": {}
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production",
+          "sourceMap": false
+        }
       }
     },
     "serve": {
-      "executor": "@nrwl/js:node",
+      "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "demo:build"
@@ -39,14 +42,14 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/demo/**/*.ts"]
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "apps/demo/jest.config.ts",
